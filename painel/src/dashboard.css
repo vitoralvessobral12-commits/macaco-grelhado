@@ -1,0 +1,87 @@
+/* Dashboard do gerente: números, filtros de período e gráficos de barras (HTML/CSS puro). */
+
+.login-voltar { margin-top: 16px; text-align: center; color: var(--muted); font-size: .88rem; }
+.login-voltar:hover { color: var(--yellow); }
+
+.dash-sub { color: var(--muted); font-size: .8rem; font-weight: 600; }
+.dash-conteudo { padding: 18px 20px 48px; max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+
+/* ---------- filtros ---------- */
+.dash-filtros { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.chip { background: var(--card); color: var(--cream); border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; font: inherit; font-size: .88rem; font-weight: 700; cursor: pointer; }
+.chip:hover { border-color: var(--yellow); }
+.chip.on { background: var(--yellow); color: #111; border-color: var(--yellow); }
+.dash-planilha { margin-left: auto; }
+@media (max-width: 700px) { .dash-planilha { margin-left: 0; width: 100%; } }
+.dash-datas { display: flex; gap: 10px; flex-wrap: wrap; }
+.dash-datas label { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: .85rem; font-weight: 600; }
+.dash-datas .campo { width: auto; padding: 7px 10px; color-scheme: dark; }
+.dash-aviso { color: var(--muted); font-size: .82rem; background: var(--bg2); border: 1px dashed var(--line); border-radius: 10px; padding: 8px 12px; }
+
+/* ---------- números (KPIs) ---------- */
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1100px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi.destaque { grid-column: 1 / -1; } }
+.kpi { background: var(--bg2); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.kpi.destaque { border-color: rgba(255, 194, 26, .5); background: linear-gradient(160deg, rgba(255, 194, 26, .1), transparent 60%), var(--bg2); }
+.kpi h2 { font-size: .8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.kpi strong { font-size: clamp(1.3rem, 1.9vw, 1.7rem); font-weight: 800; color: var(--cream); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kpi.destaque strong { color: var(--yellow); font-size: clamp(1.5rem, 2.2vw, 2rem); }
+.kpi-var { font-size: .8rem; font-weight: 700; }
+.kpi-var small { font-weight: 500; color: var(--muted); }
+.kpi-var.sobe { color: #5fd38a; }
+.kpi-var.desce { color: #ff8a70; }
+.kpi-var.neutra { color: var(--muted); font-weight: 500; }
+
+/* ---------- cartões dos gráficos ---------- */
+.dash-grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 900px) { .dash-grade { grid-template-columns: 1fr; } }
+.dash-cartao { background: var(--bg2); border: 1px solid var(--line); border-radius: 18px; padding: 16px; min-width: 0; }
+.dash-cartao.largo { grid-column: 1 / -1; }
+.dash-cartao h2 { font-size: 1rem; font-weight: 800; margin-bottom: 14px; }
+.dash-subtitulo { margin-top: 22px; }
+.grafico-vazio { color: #7d6e57; font-size: .9rem; padding: 28px 8px; text-align: center; }
+
+/* Balão com detalhes ao passar o mouse (ou focar com o teclado) */
+[data-dica] { position: relative; }
+[data-dica]:hover::after, [data-dica]:focus-visible::after {
+  content: attr(data-dica); position: absolute; z-index: 5; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+  background: var(--cream); color: #111; font-size: .78rem; font-weight: 600; white-space: nowrap; padding: 6px 10px; border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .45); pointer-events: none;
+}
+[data-dica]:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+
+/* ---------- barras horizontais (ranking) ---------- */
+.barras-h { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.barras-h li { display: grid; grid-template-columns: minmax(90px, 34%) 1fr auto; align-items: center; gap: 10px; padding: 5px 4px; border-radius: 8px; }
+.barras-h li:hover { background: var(--card); }
+.barras-h-rotulo { font-size: .86rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.barras-h-trilho { height: 12px; }
+.barras-h-barra { display: block; height: 100%; min-width: 3px; background: var(--yellow); border-radius: 0 4px 4px 0; }
+.barras-h li:hover .barras-h-barra { background: #ffd65c; }
+.barras-h-valor { font-size: .84rem; font-weight: 700; color: var(--cream); font-variant-numeric: tabular-nums; text-align: right; }
+.barras-h [data-dica]:hover::after, .barras-h [data-dica]:focus-visible::after { left: auto; right: 0; transform: none; }
+@media (max-width: 520px) {
+  .barras-h li { grid-template-columns: 1fr auto; row-gap: 4px; }
+  .barras-h-rotulo { grid-column: 1 / -1; white-space: normal; }
+}
+
+/* ---------- barras verticais (tempo) ---------- */
+.barras-v { position: relative; height: 230px; padding-left: 64px; padding-bottom: 22px; }
+.barras-v-grade { position: absolute; inset: 0 0 22px 0; pointer-events: none; }
+/* Linha de grade com o valor escrito à esquerda, na margem reservada pelo padding */
+.barras-v-grade span { position: absolute; left: 0; right: 0; border-top: 1px solid var(--line); font-size: .7rem; color: #7d6e57; line-height: 0; }
+.barras-v-area { position: relative; height: 100%; display: flex; align-items: flex-end; gap: 2px; }
+.barras-v-coluna { position: relative; flex: 1; min-width: 0; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; cursor: default; border-radius: 4px 4px 0 0; }
+.barras-v-coluna:hover { background: rgba(255, 244, 220, .05); }
+.barras-v-barra { display: block; width: 72%; max-width: 28px; margin: 0 auto; background: var(--yellow); border-radius: 4px 4px 0 0; }
+.barras-v-coluna:hover .barras-v-barra { background: #ffd65c; }
+.barras-v-rotulo { position: absolute; bottom: -20px; font-size: .68rem; color: var(--muted); white-space: nowrap; transform: translateX(-25%); }
+.barras-v-coluna[data-dica]:hover::after, .barras-v-coluna[data-dica]:focus-visible::after { bottom: calc(100% + 4px); }
+
+/* ---------- tabela (alternativa ao gráfico) ---------- */
+.dash-tabela { margin-top: 14px; font-size: .85rem; }
+.dash-tabela summary { cursor: pointer; color: var(--muted); font-weight: 600; }
+.dash-tabela summary:hover { color: var(--yellow); }
+.dash-tabela table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.dash-tabela th, .dash-tabela td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.dash-tabela th { color: var(--muted); font-weight: 700; }

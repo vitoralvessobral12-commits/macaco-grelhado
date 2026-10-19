@@ -1,0 +1,20 @@
+# Dependências e builds (cada projeto instala e gera os seus)
+node_modules/
+dist/
+dist-ssr/
+
+# Segredos: logins do painel/gerente e JWT_SECRET. Use o .env.example como modelo.
+.env
+.env.*
+!.env.example
+
+# Pedidos salvos pelo back-end (dados reais e de demonstração)
+back-end/data/
+
+# Sistema e editor
+*.log
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/

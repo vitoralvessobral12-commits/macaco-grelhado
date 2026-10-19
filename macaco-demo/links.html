@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Links · Macaco Grelhado</title>
+<link rel="icon" href="assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+body{min-height:100vh;background:radial-gradient(ellipse at 50% 0%,rgba(242,107,29,.35),transparent 60%),var(--bg)}
+.lt{max-width:480px;margin:0 auto;padding:36px 16px 48px;text-align:center}
+.lt img{width:120px;margin:0 auto 14px}
+.lt h1{font-size:2.6rem;color:var(--yellow)}
+.lt .bio{color:var(--muted);margin:4px 0 26px}
+.lk{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:12px;font-weight:700;text-align:left;transition:transform .15s,border-color .15s}
+.lk:hover{transform:translateY(-2px);border-color:var(--yellow)}
+.lk .ic{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.lk small{display:block;font-weight:400;color:var(--muted);font-size:.82rem}
+.lk.main{background:var(--yellow);color:#111;border-color:var(--yellow)}
+.lk.main small{color:#3a2e10}
+.lk.main .ic{background:#111}
+.foot{margin-top:28px;font-size:.78rem;color:#7d6e57}
+</style>
+</head>
+<body>
+<div class="demo-bar"><p>PRÉVIA — página de links proposta para a bio do Instagram</p></div>
+<div class="lt">
+  <img src="assets/logo.svg" alt="Macaco Grelhado">
+  <h1 class="display">Macaco Grelhado</h1>
+  <p class="bio">🍔 Hambúrguer de verdade desde 2017 · Centro, Sobral</p>
+
+  <a class="lk main" href="cardapio.html"><span class="ic">🍔</span><span>Fazer meu pedido<small>Cardápio com fotos e pedido direto no WhatsApp</small></span></a>
+  <a class="lk" href="cardapio.html#combos"><span class="ic" style="background:#3a2a12">🔥</span><span>Combos e promoções<small>Economize no combo</small></span></a>
+  <a class="lk" id="wa" target="_blank" rel="noopener"><span class="ic" style="background:#124a2a">💬</span><span>Falar no WhatsApp<small>(88) 9 9221-9121</small></span></a>
+  <a class="lk" id="rota" target="_blank" rel="noopener"><span class="ic" style="background:#12324a">📍</span><span>Como chegar<small id="end"></small></span></a>
+  <a class="lk" href="index.html"><span class="ic" style="background:#3a1a12">🐒</span><span>Conheça o Macaco<small>Nossa história e o que nos faz diferentes</small></span></a>
+  <a class="lk" href="https://www.instagram.com/macacogrelhado/" target="_blank" rel="noopener"><span class="ic" style="background:#3a123a">📸</span><span>Instagram<small>@macacogrelhado</small></span></a>
+
+  <p class="foot">Prévia desenvolvida como proposta · não é a página oficial</p>
+</div>
+<script src="assets/data.js"></script>
+<script>
+const M=window.MACACO;
+document.getElementById('end').textContent=M.endereco;
+document.getElementById('rota').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(M.mapsQuery);
+const wa=document.getElementById('wa');
+if(M.DEMO){wa.href='#';wa.addEventListener('click',e=>{e.preventDefault();wa.querySelector('small').textContent='Na versão oficial, abre o WhatsApp do restaurante';});}
+else wa.href='https://wa.me/'+M.whatsapp;
+</script>
+</body>
+</html>

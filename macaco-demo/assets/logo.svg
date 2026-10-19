@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Macaco Grelhado (selo provisório — substituir pela logo oficial)">
+  <defs>
+    <path id="top" d="M30,100 a70,70 0 0,1 140,0"/>
+    <path id="bot" d="M36,104 a64,64 0 0,0 128,0"/>
+  </defs>
+  <circle cx="100" cy="100" r="96" fill="#ffc21a"/>
+  <circle cx="100" cy="100" r="84" fill="#111"/>
+  <circle cx="100" cy="100" r="84" fill="none" stroke="#f26b1d" stroke-width="3" stroke-dasharray="4 6"/>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="26" fill="#ffc21a" letter-spacing="3"><textPath href="#top" startOffset="50%" text-anchor="middle">MACACO</textPath></text>
+  <text font-family="Bebas Neue, Impact, sans-serif" font-size="20" fill="#fff4dc" letter-spacing="2"><textPath href="#bot" startOffset="50%" text-anchor="middle">GRELHADO</textPath></text>
+  <g transform="translate(100 104)">
+    <path d="M-38,-6 a38,30 0 0,1 76,0 z" fill="#f2a33a"/>
+    <circle cx="-16" cy="-20" r="2.2" fill="#fff4dc"/><circle cx="2" cy="-25" r="2.2" fill="#fff4dc"/><circle cx="18" cy="-18" r="2.2" fill="#fff4dc"/>
+    <path d="M-42,-4 h84 l-6,8 -8,-5 -8,6 -8,-6 -8,6 -8,-6 -8,6 -8,-6 -8,6 -8,-5 z" fill="#4caf50"/>
+    <rect x="-40" y="4" width="80" height="11" rx="5" fill="#6b3a1e"/>
+    <rect x="-40" y="2" width="80" height="4" rx="2" fill="#ffc21a"/>
+    <path d="M-38,17 h76 a6,6 0 0,1 -6,10 h-64 a6,6 0 0,1 -6,-10 z" fill="#f2a33a"/>
+  </g>
+</svg>

@@ -1,0 +1,23 @@
+{
+  "name": "macaco-back-end",
+  "version": "1.0.0",
+  "description": "API simples da prévia: pedidos do cardápio para o painel",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js --ignore data/",
+    "demo:vendas": "node scripts/demo-vendas.js",
+    "demo:limpar": "node scripts/demo-vendas.js --limpar"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

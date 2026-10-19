@@ -1,0 +1,91 @@
+/* Painel da loja. Pensado para computador ou tablet no balcão, mas funciona no celular. */
+
+.campo { width: 100%; background: var(--card); border: 1px solid var(--line); color: var(--cream); border-radius: 12px; padding: 12px 14px; font: inherit; }
+.campo:focus { outline: none; border-color: var(--yellow); }
+.btn:disabled { opacity: .55; cursor: wait; }
+.btn-sucesso { background: #2f9e5b; color: #fff; }
+.btn-sucesso:hover { background: #36b368; }
+.btn-perigo { background: var(--red); color: #fff; }
+.btn-perigo-borda { background: transparent; color: #ff8a70; border: 2px solid rgba(217, 58, 31, .6); }
+.btn-perigo-borda:hover { border-color: var(--red); }
+
+/* ---------- login ---------- */
+.login { min-height: 100vh; display: grid; place-items: center; padding: 16px; background: radial-gradient(ellipse at 50% 0%, rgba(242, 107, 29, .3), transparent 60%), var(--bg); }
+.login-cartao { width: 100%; max-width: 380px; background: var(--bg2); border: 1px solid var(--line); border-radius: 20px; padding: 32px 24px; display: flex; flex-direction: column; }
+.login-cartao img { width: 84px; margin: 0 auto 10px; }
+.login-cartao h1 { font-size: 2.4rem; text-align: center; color: var(--yellow); }
+.login-cartao > p { text-align: center; color: var(--muted); font-size: .88rem; margin-bottom: 14px; }
+.login-cartao label { font-weight: 600; font-size: .88rem; margin: 12px 0 6px; }
+.login-cartao .btn { margin-top: 20px; }
+.login-erro { margin-top: 14px; color: #ffb3a3; background: rgba(217, 58, 31, .12); border: 1px solid var(--red); border-radius: 10px; padding: 10px 12px; font-size: .88rem; }
+
+/* ---------- topo ---------- */
+.painel { min-height: 100vh; }
+.painel-topo { position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 20px; background: rgba(15, 13, 10, .95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.painel-marca { display: flex; align-items: center; gap: 12px; }
+.painel-marca img { width: 46px; }
+.painel-marca h1 { font-size: 1.8rem; color: var(--yellow); }
+.conexao { font-size: .78rem; font-weight: 600; }
+.conexao.on { color: #5fd38a; }
+.conexao.off { color: #ff8a70; }
+.painel-botoes { display: flex; gap: 8px; }
+
+.aviso-erro { margin: 12px 20px 0; background: rgba(217, 58, 31, .12); border: 1px solid var(--red); color: #ffb3a3; border-radius: 12px; padding: 10px 14px; cursor: pointer; }
+.carregando { padding: 60px 20px; text-align: center; color: var(--muted); }
+
+/* ---------- colunas ---------- */
+.colunas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; padding: 18px 20px 40px; align-items: start; }
+@media (max-width: 1000px) { .colunas { grid-template-columns: 1fr; } }
+.coluna { background: var(--bg2); border: 1px solid var(--line); border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 12px; min-height: 200px; }
+.coluna.novos { border-color: rgba(255, 194, 26, .45); }
+.coluna h2 { font-size: 1.7rem; display: flex; align-items: center; gap: 10px; }
+.contador { font-family: 'Inter', sans-serif; font-size: .85rem; font-weight: 800; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 1px 10px; }
+.coluna.novos .contador { background: var(--yellow); color: #111; border-color: var(--yellow); }
+.coluna-vazia { color: #7d6e57; font-size: .9rem; padding: 24px 8px; text-align: center; }
+
+/* ---------- cartão do pedido ---------- */
+.pedido-card { background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.pedido-card.novo { border-left-color: var(--yellow); animation: chegou 1s ease-out; }
+.pedido-card.andamento { border-left-color: var(--orange); }
+.pedido-card.concluido { border-left-color: #2f9e5b; opacity: .8; }
+.pedido-card.recusado { border-left-color: var(--red); opacity: .7; }
+@keyframes chegou { from { box-shadow: 0 0 0 6px rgba(255, 194, 26, .5); } }
+@media (prefers-reduced-motion: reduce) { .pedido-card.novo { animation: none; } }
+
+.pedido-card header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.pedido-card header > div { display: flex; align-items: center; gap: 8px; }
+.pedido-id { font-size: 1.7rem; color: var(--cream); }
+.pedido-hora { color: var(--muted); font-size: .8rem; white-space: nowrap; }
+.selo { font-size: .72rem; font-weight: 800; border-radius: 6px; padding: 2px 8px; text-transform: uppercase; letter-spacing: .03em; }
+.selo.novo { background: var(--yellow); color: #111; }
+.selo.andamento { background: var(--orange); color: #fff; }
+.selo.concluido { background: #2f9e5b; color: #fff; }
+.selo.recusado { background: var(--red); color: #fff; }
+
+.pedido-cliente { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.pedido-cliente a { color: #5fd38a; font-weight: 600; font-size: .9rem; }
+.pedido-tipo { display: flex; gap: 8px; font-size: .9rem; background: var(--bg2); border-radius: 10px; padding: 8px 10px; }
+.pedido-tipo small { color: var(--muted); }
+
+.pedido-itens { list-style: none; border-top: 1px dashed var(--line); border-bottom: 1px dashed var(--line); padding: 8px 0; display: flex; flex-direction: column; gap: 6px; }
+.pedido-itens li { display: flex; flex-direction: column; font-size: .95rem; }
+.pedido-itens em { color: var(--yellow); font-size: .84rem; font-style: normal; font-weight: 600; margin-left: 22px; }
+
+.pedido-pagamento { display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; font-size: .88rem; }
+.pedido-total { display: flex; flex-direction: column; align-items: flex-end; font-size: 1.15rem; font-weight: 800; }
+.pedido-total small { font-size: .74rem; font-weight: 500; color: var(--muted); }
+.pedido-motivo { color: #ff8a70; font-size: .85rem; }
+
+.pedido-acoes { display: flex; gap: 8px; }
+.pedido-acoes .btn { flex: 1; padding: 12px 14px; font-size: .92rem; }
+
+/* ---------- modal de recusa ---------- */
+.modal-fundo { position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, .65); display: grid; place-items: center; padding: 16px; }
+.modal { width: 100%; max-width: 440px; background: var(--bg2); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+.modal h2 { font-size: 2rem; color: var(--yellow); }
+.modal > p { color: var(--muted); font-size: .88rem; margin-bottom: 12px; }
+.motivos { display: flex; flex-direction: column; gap: 8px; }
+.motivos label { display: flex; gap: 10px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; cursor: pointer; font-size: .9rem; }
+.motivos input[type='radio'] { margin-top: 3px; accent-color: var(--yellow); }
+.modal-acoes { display: flex; gap: 10px; margin-top: 18px; }
+.modal-acoes .btn { flex: 1; }

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Cardápio · Macaco Grelhado</title>
+<link rel="icon" href="assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.mhead{padding:28px 0 8px;display:flex;gap:16px;align-items:center}
+.mhead img{width:72px}
+.mhead h1{font-size:2.6rem}
+.mhead p{color:var(--muted);font-size:.9rem}
+.tabs{position:sticky;top:0;z-index:15;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{display:inline-block;padding:14px 16px;font-weight:700;color:var(--muted);border-bottom:3px solid transparent}
+.tabs a.on{color:var(--yellow);border-color:var(--yellow)}
+.cat{padding:28px 0 4px}
+.cat h2{font-size:2.1rem;color:var(--yellow);margin-bottom:12px}
+.item{display:grid;grid-template-columns:1fr 104px;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.item h3{font-size:1.05rem}
+.item p{color:var(--muted);font-size:.88rem;margin:4px 0 8px}
+.item .pr{font-weight:700}
+.item .ph{width:104px;height:104px;border-radius:12px}
+.item .ph::after{content:''}
+.item .ph svg{width:62%}
+.tag{display:inline-block;font-size:.7rem;font-weight:700;background:var(--orange);color:#fff;border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:middle}
+.qtybadge{position:absolute;top:-6px;right:-6px;background:var(--yellow);color:#111;border-radius:999px;font-weight:800;font-size:.8rem;min-width:24px;height:24px;display:flex;align-items:center;justify-content:center}
+.cartbar{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 16px;background:linear-gradient(transparent,var(--bg) 30%);display:none}
+.cartbar button{width:100%;max-width:640px;margin:0 auto;display:flex;justify-content:space-between}
+.sheet{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center}
+.sheet.open{display:flex}
+.panel{background:var(--bg2);width:100%;max-width:640px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:20px 16px 28px}
+.panel h2{font-size:2rem;margin-bottom:12px}
+.line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.qty{display:flex;align-items:center;gap:10px}
+.qty button{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--cream);font-size:1.1rem;cursor:pointer}
+label{display:block;font-weight:600;font-size:.88rem;margin:14px 0 6px}
+input,select,textarea{width:100%;background:var(--card);border:1px solid var(--line);color:var(--cream);border-radius:10px;padding:12px;font:inherit}
+.seg{display:flex;gap:8px}.seg button{flex:1;padding:11px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--cream);font-weight:700;cursor:pointer}
+.seg button.on{background:var(--yellow);color:#111;border-color:var(--yellow)}
+.total{display:flex;justify-content:space-between;font-weight:800;font-size:1.15rem;margin:16px 0}
+pre.msg{white-space:pre-wrap;background:#0b0a08;border:1px solid var(--line);border-radius:12px;padding:14px;font-size:.88rem;font-family:ui-monospace,monospace;margin:12px 0}
+.close{float:right;background:none;border:0;color:var(--muted);font-size:1.6rem;cursor:pointer}
+.note{font-size:.8rem;color:var(--muted);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="demo-bar"><p>PRÉVIA — itens e preços de exemplo · o pedido não é enviado ao restaurante</p></div>
+
+<div class="wrap mhead">
+  <a href="index.html"><img src="assets/logo.svg" alt="Macaco Grelhado"></a>
+  <div><h1 class="display">Cardápio</h1><p>Macaco Grelhado · Centro, Sobral · delivery e retirada</p></div>
+</div>
+<nav class="tabs" id="tabs"><div class="wrap" id="tabsin"></div></nav>
+<main class="wrap" id="menu" style="padding-bottom:110px"></main>
+
+<div class="cartbar" id="cartbar"><button class="btn btn-primary" id="opencart"><span id="cartcount">Ver carrinho</span><span id="carttotal"></span></button></div>
+
+<div class="sheet" id="sheet"><div class="panel" id="panel"></div></div>
+
+<script src="assets/data.js"></script>
+<script>
+const M=window.MACACO, all={};
+CARDAPIO.forEach(c=>c.itens.forEach(i=>all[i.id]=i));
+const burger='<svg viewBox="0 0 100 80"><path d="M10 34a40 30 0 0 1 80 0z" fill="#f2a33a"/><path d="M6 36h88l-6 8-8-5-8 6-8-6-8 6-8-6-8 6-8-6-8 6-8-5z" fill="#4caf50"/><rect x="8" y="46" width="84" height="12" rx="6" fill="#6b3a1e"/><rect x="8" y="44" width="84" height="5" rx="2" fill="#ffc21a"/><path d="M10 60h80a6 6 0 0 1-6 12H16a6 6 0 0 1-6-12z" fill="#f2a33a"/></svg>';
+let cart={}; // id -> qty
+let form={tipo:'Delivery',nome:'',end:'',pag:'Pix',obs:''};
+try{cart=JSON.parse(localStorage.getItem('mg_cart')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('mg_cart',JSON.stringify(cart))}catch(e){}};
+const slug=s=>s.toLowerCase().normalize('NFD').replace(/[^\w]+/g,'-');
+
+// render menu
+document.getElementById('tabsin').innerHTML=CARDAPIO.map((c,i)=>`<a href="#${slug(c.cat)}" class="${i?'':'on'}">${c.cat}</a>`).join('');
+function renderMenu(){
+  document.getElementById('menu').innerHTML=CARDAPIO.map(c=>`<section class="cat" id="${slug(c.cat)}" style="padding:28px 0 4px"><h2 class="display">${c.cat}</h2>${c.itens.map(i=>`
+    <div class="item" data-id="${i.id}"><div><h3>${i.nome}${i.tag?`<span class="tag">${i.tag}</span>`:''}</h3><p>${i.desc}</p><span class="pr">${brl(i.preco)}</span></div>
+    <div style="position:relative"><div class="ph">${burger}</div>${cart[i.id]?`<span class="qtybadge">${cart[i.id]}</span>`:''}</div></div>`).join('')}</section>`).join('');
+}
+function total(){return Object.entries(cart).reduce((s,[id,q])=>s+all[id].preco*q,0)}
+function count(){return Object.values(cart).reduce((a,b)=>a+b,0)}
+function refresh(){
+  renderMenu(); save(); observe();
+  const n=count();
+  document.getElementById('cartbar').style.display=n?'block':'none';
+  document.getElementById('cartcount').textContent=`Ver carrinho (${n} ${n>1?'itens':'item'})`;
+  document.getElementById('carttotal').textContent=brl(total());
+}
+function add(id,d=1){cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];refresh();}
+document.getElementById('menu').addEventListener('click',e=>{const it=e.target.closest('.item');if(it){add(it.dataset.id);}});
+
+// tabs highlight
+const obs=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){document.querySelectorAll('.tabs a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+en.target.id))}}),{rootMargin:'-40% 0px -55% 0px'});
+function observe(){obs.disconnect();document.querySelectorAll('.cat').forEach(s=>obs.observe(s))}
+
+// cart sheet
+const sheet=document.getElementById('sheet'),panel=document.getElementById('panel');
+function msg(){
+  const l=Object.entries(cart).map(([id,q])=>`${q}x ${all[id].nome} — ${brl(all[id].preco*q)}`).join('\n');
+  return `*Novo pedido — Macaco Grelhado*\n\n${l}\n\n*Total:* ${brl(total())}\n*Tipo:* ${form.tipo}\n*Nome:* ${form.nome||'-'}`+
+    (form.tipo==='Delivery'?`\n*Endereço:* ${form.end||'-'}`:'')+`\n*Pagamento:* ${form.pag}`+(form.obs?`\n*Obs:* ${form.obs}`:'');
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function openCart(){
+  panel.innerHTML=`<button class="close" id="x" aria-label="Fechar">×</button><h2 class="display">Seu pedido</h2>
+  ${Object.entries(cart).map(([id,q])=>`<div class="line"><div><b>${all[id].nome}</b><br><small style="color:var(--muted)">${brl(all[id].preco)}</small></div><div class="qty"><button data-d="-1" data-id="${id}">−</button><b>${q}</b><button data-d="1" data-id="${id}">+</button></div></div>`).join('')}
+  <label>Entrega ou retirada</label><div class="seg">${['Delivery','Retirada'].map(t=>`<button data-t="${t}" class="${form.tipo===t?'on':''}">${t}</button>`).join('')}</div>
+  <label for="nome">Seu nome</label><input id="nome" value="${esc(form.nome)}" autocomplete="name">
+  ${form.tipo==='Delivery'?`<label for="end">Endereço completo</label><input id="end" value="${esc(form.end)}" placeholder="Rua, número, bairro, referência">`:''}
+  <label for="pag">Pagamento</label><select id="pag">${['Pix','Cartão na entrega','Dinheiro'].map(p=>`<option ${form.pag===p?'selected':''}>${p}</option>`).join('')}</select>
+  <label for="obs">Observações</label><textarea id="obs" rows="2" placeholder="Ex.: sem cebola, troco para 50">${esc(form.obs)}</textarea>
+  <div class="total"><span>Total</span><span>${brl(total())}</span></div>
+  <button class="btn btn-primary" style="width:100%" id="send">Enviar pedido pelo WhatsApp</button>
+  <p class="note">${M.DEMO?'Modo prévia: vamos mostrar a mensagem que chegaria no WhatsApp do restaurante.':''}</p>`;
+  sheet.classList.add('open');
+}
+panel.addEventListener('input',e=>{if(e.target.id in form)form[e.target.id]=e.target.value});
+panel.addEventListener('change',e=>{if(e.target.id in form)form[e.target.id]=e.target.value});
+panel.addEventListener('click',e=>{
+  const b=e.target;
+  if(b.id==='x'){sheet.classList.remove('open');return}
+  if(b.dataset.d){add(b.dataset.id,+b.dataset.d);count()?openCart():sheet.classList.remove('open');return}
+  if(b.dataset.t){form.tipo=b.dataset.t;openCart();return}
+  if(b.id==='send'){
+    const text=msg();
+    if(M.DEMO){
+      panel.innerHTML=`<button class="close" id="x">×</button><h2 class="display">Pedido pronto ✅</h2><p style="color:var(--muted)">É exatamente esta mensagem que chegaria no WhatsApp do Macaco Grelhado, já organizada:</p><pre class="msg"></pre><button class="btn btn-ghost" style="width:100%" id="x2">Voltar ao cardápio</button>`;
+      panel.querySelector('pre').textContent=text;
+      panel.querySelector('#x2').onclick=()=>sheet.classList.remove('open');
+    } else {
+      window.open('https://wa.me/'+M.whatsapp+'?text='+encodeURIComponent(text),'_blank');
+    }
+  }
+});
+sheet.addEventListener('click',e=>{if(e.target===sheet)sheet.classList.remove('open')});
+document.getElementById('opencart').onclick=openCart;
+
+// add via link (#add=b1)
+const m=location.hash.match(/add=(\w+)/); if(m&&all[m[1]]){cart[m[1]]=(cart[m[1]]||0)+1;history.replaceState(null,'',location.pathname);}
+refresh();
+</script>
+</body>
+</html>
