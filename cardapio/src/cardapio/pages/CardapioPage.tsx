@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { CARDAPIO, ITENS, brl } from '../../data/cardapio'
 import { TEMPO_ENTREGA } from '../../data/entrega'
-import { LOJA } from '../../data/loja'
+import { LOJA, situacaoLoja } from '../../data/loja'
 import { URL_LANDING } from '../../config'
 import { BarraCarrinho } from '../components/BarraCarrinho'
 import { FotoItem } from '../components/FotoItem'
@@ -16,6 +16,7 @@ export default function CardapioPage() {
   const location = useLocation()
   const navigate = useNavigate()
   const [ativa, setAtiva] = useState<string>(CARDAPIO[0].slug)
+  const [situacao] = useState(() => situacaoLoja()) // aberto ou fechado, pelo horário da loja
   const [aviso, setAviso] = useState<string | null>((location.state as { adicionado?: string } | null)?.adicionado ?? null)
   const abasRef = useRef<HTMLDivElement>(null)
 
@@ -73,7 +74,7 @@ export default function CardapioPage() {
             <h1 className="display">Cardápio</h1>
             <p>{LOJA.nome} · Centro, Sobral</p>
             <div className="capa-info">
-              <span className="aberto">● Aberto agora</span>
+              <span className={situacao.aberta ? 'aberto' : 'fechado'}>● {situacao.texto}</span>
               <span>🛵 {TEMPO_ENTREGA}</span>
             </div>
           </div>

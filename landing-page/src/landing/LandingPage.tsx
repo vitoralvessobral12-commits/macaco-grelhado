@@ -254,7 +254,7 @@ export default function LandingPage() {
             <a href={linkCardapio()}>Cardápio</a>
             <a href={LOJA.avaliacaoUrl} target="_blank" rel="noopener">Avaliar no Google</a>
           </nav>
-          <small>Prévia desenvolvida como proposta. Não é o site oficial.</small>
+          
         </div>
       </footer>
 

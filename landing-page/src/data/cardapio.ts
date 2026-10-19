@@ -47,9 +47,9 @@ export const CARDAPIO: Secao[] = [
     slug: 'acompanhamentos',
     nome: 'Acompanhamentos',
     itens: [
-      { id: 'a1', nome: 'Batata frita', desc: 'Porção média, crocante, com sal e páprica.', preco: 14.9 },
+      { id: 'a1', nome: 'Batata frita', desc: 'Porção média, crocante, com sal e páprica.', preco: 14.9, foto: '/fotos/batata-frita.jpg' },
       { id: 'a2', nome: 'Batata bacon e cheddar', desc: 'Batata coberta com cheddar cremoso e muito bacon crocante.', preco: 24.9, tag: 'Queridinha', foto: '/fotos/batata-cheddar.jpg' },
-      { id: 'a3', nome: 'Onion rings', desc: 'Anéis de cebola empanados (8 un).', preco: 18.9 },
+      { id: 'a3', nome: 'Onion rings', desc: 'Anéis de cebola empanados (8 un).', preco: 18.9, foto: '/fotos/onion-rings.jpg' },
     ],
   },
   {
@@ -58,8 +58,8 @@ export const CARDAPIO: Secao[] = [
     itens: [
       { id: 'd1', nome: 'Coca-Cola lata', desc: 'Coca-Cola original 350ml, bem gelada.', preco: 6.5, foto: '/fotos/coca-cola.jpg' },
       { id: 'd2', nome: 'Delrio 220ml', desc: 'O refrigerante de garrafinha que combina com tudo.', preco: 5.5, foto: '/fotos/delrio.jpg' },
-      { id: 'd3', nome: 'Suco natural', desc: 'Laranja, maracujá ou acerola (400ml).', preco: 9.9 },
-      { id: 'd4', nome: 'Milkshake', desc: 'Chocolate, morango ou ovomaltine (400ml).', preco: 18.9 },
+      { id: 'd3', nome: 'Suco natural', desc: 'Laranja, maracujá ou acerola (400ml).', preco: 9.9, foto: '/fotos/suco-natural.jpg' },
+      { id: 'd4', nome: 'Milkshake', desc: 'Chocolate, morango ou ovomaltine (400ml).', preco: 18.9, foto: '/fotos/milkshake.jpg' },
     ],
   },
 ]
