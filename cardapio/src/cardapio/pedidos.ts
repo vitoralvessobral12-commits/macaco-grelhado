@@ -22,6 +22,7 @@ export type NovoPedido = {
 
 export type Pedido = NovoPedido & {
   id: string
+  chave: string // secreta: só quem fez o pedido consegue acompanhar
   criadoEm: number
   subtotal: number
   total: number
@@ -64,7 +65,11 @@ async function chamarApi<T>(caminho: string, opcoes?: RequestInit): Promise<T> {
 export const enviarPedido = (pedido: NovoPedido) =>
   chamarApi<Pedido>('/pedidos', { method: 'POST', body: JSON.stringify(pedido) })
 
-export const buscarPedido = (id: string) => chamarApi<Pedido>(`/pedidos/${encodeURIComponent(id)}`)
+export const buscarPedido = (id: string, chave: string) =>
+  chamarApi<Pedido>(`/pedidos/${encodeURIComponent(id)}?chave=${encodeURIComponent(chave)}`)
+
+// Link de acompanhamento: número + chave secreta (sem a chave, a API não mostra o pedido)
+export const linkDoPedido = (p: Pick<Pedido, 'id' | 'chave'>) => `/pedido/${p.id}?chave=${p.chave}`
 
 export const NOME_PAGAMENTO: Record<Pagamento, string> = {
   pix: 'Pix',

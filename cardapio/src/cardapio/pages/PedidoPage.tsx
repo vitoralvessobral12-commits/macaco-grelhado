@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { brl } from '../../data/cardapio'
 import { TEMPO_ENTREGA, TEMPO_RETIRADA } from '../../data/entrega'
 import { LOJA, whatsappComTexto } from '../../data/loja'
@@ -13,6 +13,7 @@ const INTERVALO_MS = 3000
 // Consulta a API a cada 3 segundos; o status muda quando a loja clica no painel.
 export default function PedidoPage() {
   const { id = '' } = useParams()
+  const chave = useSearchParams()[0].get('chave') ?? ''
   const [pedido, setPedido] = useState<Pedido | null>(null)
   const [naoEncontrado, setNaoEncontrado] = useState(false)
   const [semConexao, setSemConexao] = useState(false)
@@ -24,7 +25,7 @@ export default function PedidoPage() {
     let ativo = true
     const atualizar = async () => {
       try {
-        const p = await buscarPedido(id)
+        const p = await buscarPedido(id, chave)
         if (!ativo) return
         setPedido(p)
         setSemConexao(false)
@@ -40,7 +41,7 @@ export default function PedidoPage() {
       ativo = false
       clearInterval(t)
     }
-  }, [id, finalizado, naoEncontrado])
+  }, [id, chave, finalizado, naoEncontrado])
 
   if (naoEncontrado) {
     return (

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const config = require('./../config')
 
 // Lê e confere o token do cabeçalho "Authorization: Bearer <token>".
 // Devolve os dados do token ou null (sem token, inválido ou vencido).
@@ -7,7 +8,7 @@ function lerToken(req) {
     if (esquema !== 'Bearer' || !token) return null
 
     try {
-        return jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] })
+        return jwt.verify(token, config.jwtSecret, { algorithms: ['HS256'] })
     } catch (error) {
         return null
     }

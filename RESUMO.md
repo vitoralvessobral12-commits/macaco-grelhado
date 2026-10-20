@@ -54,6 +54,7 @@ A prévia é **simples de propósito** (sem banco de dados e sem segurança pesa
 - **Login do painel:** um único usuário, `vitor.teste@gmail.com`, com a senha de teste guardada no `back-end/.env`.
 - **Login do dashboard:** separado, só do gerente (`gerente.teste@gmail.com`), para o atendente não ver o faturamento.
 - **Gráficos sem biblioteca:** feitos em HTML/CSS, para não adicionar dependência.
+- **Segurança antes de publicar:** rate limiting, helmet, CORS restrito (`CORS_ORIGINS`), validação com Zod, chave secreta por pedido (ninguém vê o pedido dos outros trocando o número), `/health` e erros genéricos. Detalhes no README.
 - **Horário real:** todos os dias das 17h15 às 23h30, fechado às quartas. O cardápio mostra "Aberto agora" ou "Fechado · abre …" sozinho (`situacaoLoja` em `src/data/loja.ts`).
 - **Preços, descrições, bairros, frete e chave Pix são ilustrativos.** Confirmar com a loja.
 - **Linktree:** fica para a hora de publicar.

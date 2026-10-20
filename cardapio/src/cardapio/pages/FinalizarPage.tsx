@@ -7,7 +7,7 @@ import { LOJA } from '../../data/loja'
 import { BuscaEndereco } from '../components/BuscaEndereco'
 import { Topo } from '../components/Topo'
 import { useCarrinho } from '../context/CarrinhoContext'
-import { NOME_PAGAMENTO, enviarPedido } from '../pedidos'
+import { NOME_PAGAMENTO, enviarPedido, linkDoPedido } from '../pedidos'
 import type { NovoPedido, Pagamento, TipoPedido } from '../pedidos'
 
 type Dados = {
@@ -116,7 +116,7 @@ export default function FinalizarPage() {
         /* sem armazenamento */
       }
       limpar()
-      navigate(`/pedido/${pedido.id}`, { replace: true })
+      navigate(linkDoPedido(pedido), { replace: true })
     } catch (e) {
       setErroEnvio((e as Error).message)
       setEnviando(false)

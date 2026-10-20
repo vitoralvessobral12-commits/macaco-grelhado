@@ -239,7 +239,12 @@ public/logo.png
 ### ⚙️ `back-end/` (porta 4002)
 
 ```
-app.js                          ← sobe o Express, CORS, rotas, erros
+app.js                          ← sobe o Express: helmet, CORS restrito, limites, /health, rotas, erros
+src/config.js                   ← lê e confere o .env (o servidor não sobe se faltar variável)
+src/esquemas.js                 ← validação de entrada de todas as rotas (Zod)
+src/seguranca.js                ← comparação de senha em tempo constante + chave secreta do pedido
+src/middlewares/validar.js      ← aplica os esquemas do Zod em body, params e query
+src/middlewares/limites.js      ← rate limiting (geral, login e novos pedidos)
 src/routes/pedidoRoutes.js      ← rotas públicas (cliente)
 src/routes/painelRoutes.js      ← login + rotas da loja (atendente)
 src/routes/dashboardRoutes.js   ← login do gerente + pedidos por período
@@ -253,12 +258,26 @@ data/pedidos.json               ← os pedidos (criado sozinho; fora do git)
 | Método | Rota | Quem usa | Precisa de login? | O que faz |
 |---|---|---|---|---|
 | POST | `/pedidos` | cardápio | ❌ | Cria o pedido e devolve o `id` |
-| GET | `/pedidos/:id` | cardápio | ❌ | Mostra o pedido (acompanhamento) |
+| GET | `/pedidos/:id?chave=` | cardápio | 🔑 chave do pedido | Mostra o pedido (acompanhamento). Sem a chave secreta, responde 404 |
+| GET | `/health` | monitoramento | ❌ | `{ status: "ok" }` (UptimeRobot e para "acordar" o servidor) |
 | POST | `/painel/login` | painel | ❌ | Confere e-mail e senha e devolve o token (12 h) |
 | GET | `/painel/pedidos` | painel | ✅ | Lista todos os pedidos |
 | PATCH | `/painel/pedidos/:id` | painel | ✅ | `{ acao: "aceitar" \| "recusar" \| "avancar", motivo? }` |
 | POST | `/dashboard/login` | dashboard | ❌ | Confere o login do gerente e devolve o token (12 h) |
 | GET | `/dashboard/pedidos?de=&ate=` | dashboard | ✅ gerente | Pedidos criados no período (datas em milissegundos) |
+
+### 🔒 Segurança do back-end
+
+| Proteção | Como funciona |
+|---|---|
+| **Rate limiting** | Geral: 1000 requisições/15 min por IP (o painel consulta a cada 2 s). Login: 10 tentativas erradas/15 min, um contador para o painel e outro para o dashboard. Novos pedidos: 15/15 min por IP |
+| **Helmet** | Cabeçalhos de segurança na API e sem `X-Powered-By`. Os 3 sites têm cabeçalhos equivalentes no `vercel.json` |
+| **CORS restrito** | Só os endereços de `CORS_ORIGINS` podem chamar a API, com os métodos GET, POST e PATCH. Em produção é obrigatório |
+| **Validação (Zod)** | Body, params e query de todas as rotas, com tamanho máximo nos textos, preço e quantidade com limite, e pagamento só com os valores conhecidos |
+| **Pedido de outra pessoa** | Cada pedido tem uma `chave` secreta de 32 caracteres, que vai só no link de quem pediu. Trocar o número na URL não mostra o pedido dos outros |
+| **Login** | E-mail e senha comparados em tempo constante. O token do atendente vale 8 h e o do gerente 2 h. O gerente não acessa o painel e o atendente não acessa o dashboard |
+| **Erros** | O cliente recebe só "Erro interno"/"Requisição inválida"; o detalhe fica no log do servidor |
+| **Corpo** | Até 10 kb por requisição |
 
 **Pagamento** (campo `pagamento` do pedido): `pix`, `credito`, `debito` ou `dinheiro`. Pedidos antigos podem ter `cartao`, que continua aparecendo como "Cartão na entrega".
 

@@ -1,7 +1,9 @@
 // Comunicação do painel com a API + guarda do token de login.
 
 export const URL_API = (
-  import.meta.env.VITE_URL_API || `${window.location.protocol}//${window.location.hostname}:4002`
+  import.meta.env.VITE_URL_API ||
+    // Só em desenvolvimento cai no mesmo computador; em produção a variável é obrigatória
+    (import.meta.env.DEV ? `${window.location.protocol}//${window.location.hostname}:4002` : '')
 ).replace(/\/$/, '')
 
 export type ItemPedido = { itemId: string; nome: string; preco: number; qtd: number; obs: string }
